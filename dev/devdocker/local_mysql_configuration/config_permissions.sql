@@ -1,0 +1,3 @@
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root_pwd';
+GRANT ALL PRIVILEGES ON *.* TO 'infcommon'@'%' IDENTIFIED BY 'infcommon_pwd';
+FLUSH PRIVILEGES;

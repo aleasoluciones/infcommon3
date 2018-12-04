@@ -1,0 +1,31 @@
+sudo: required
+
+services:
+- docker
+
+env:
+    global:
+        - TEST_MODE=1
+        - LOCAL_DB_URI=mysql://infcommon:infcommon_pwd@127.0.0.1:3314/mysql
+
+language: python
+
+python:
+  - '3.5'
+
+before_install:
+  - sudo apt-get -y update || true
+  - docker run -d --name infcommon_local_bote_mysql -v /etc/localtime:/etc/localtime:ro -v $(pwd)/dev/devdocker/local_mysql_configuration:/docker-entrypoint-initdb.d:ro -e MYSQL_ROOT_PASSWORD=root_pwd -e MYSQL_DATABASE=mysql -e MYSQL_USER=infcommon -e MYSQL_PASSWORD=infcommon_pwd -p 3314:3306 mysql:5.5.45
+
+install:
+  - python setup.py develop
+  - pip install -r requirements.txt
+  - pip install -r requirements-dev.txt
+
+script:
+  - ./dev/unit_tests.sh
+  - ./dev/integration_tests_for_travis.sh
+
+notifications:
+  email:
+    - bifer@alea-soluciones.com
