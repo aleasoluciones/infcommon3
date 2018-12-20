@@ -77,7 +77,7 @@ with description('Directory Yaml Loader specs') as self:
 
                         directory_yaml_loader_to_fail.load_all()
 
-                    expected_file_name = 'duplicated_isp_templates2.yaml'
+                    expected_file_name = 'duplicated_isp_templates'
                     expected_keys_name_duplicated = 'a_duplicated_key'
                     expect(_call_directory_yaml_loader_with_duplicated_keys_in_two_files).to(raise_error(DuplicatedKeyError,
                                                                                                          contain(expected_file_name,
