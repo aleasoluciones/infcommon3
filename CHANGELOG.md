@@ -1,3 +1,9 @@
+2018-12-20
+==========
+* Update readme with more detailed information
+* Update python modules at requirements and requirements-dev
+* Update travis jobs to use python 3.5, 3.6 and 3.7-dev
+
 2018-06-13
 ==========
 * Added factory.
