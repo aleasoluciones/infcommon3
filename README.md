@@ -33,6 +33,16 @@ Remember to exclude virtualenv directory from git
 ### Install all python packages
 Enter to your virtualenv project and run `dev/setup_venv.sh`
 
+#### Mac OS High Sierra compiler error
+If you have some error when trying to pip install psycopg2 or mysqlclient try to install manually with
+
+```
+env LDFLAGS="-I/usr/local/opt/openssl/include -L/usr/local/opt/openssl/lib" pip install mysqlclient==1.3.14
+```
+
+```
+env LDFLAGS="-I/usr/local/opt/openssl/include -L/usr/local/opt/openssl/lib" pip install psycopg2==2.7.6.1
+```
 
 ## Run the tests
 Enter to your virtualenv project 
