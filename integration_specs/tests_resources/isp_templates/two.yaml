@@ -1,0 +1,8 @@
+template3:
+  - provision_type: password
+  - an_attribute: an_attribute
+template4:
+  - provision_type: password
+  - an_attribute: an_attribute
+
+

@@ -1,0 +1,8 @@
+a_duplicated_key:
+    vlan: 66
+
+my_key:
+    vlan: 88
+
+my_other_key:
+    vlan: 44

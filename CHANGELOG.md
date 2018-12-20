@@ -3,6 +3,7 @@
 * Update readme with more detailed information
 * Update python modules at requirements and requirements-dev
 * Update travis jobs to use python 3.5, 3.6 and 3.7-dev
+* Add DirectoryYamlLoader to infcommon.yaml_loaders
 
 2018-06-13
 ==========

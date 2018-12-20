@@ -1,0 +1,6 @@
+template1:
+  - provision_type: password
+  - an_attribute: an_attribute
+template2:
+  - provision_type: serialnumber
+  - another_attribute: another_attribute
