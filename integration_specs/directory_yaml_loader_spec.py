@@ -71,7 +71,7 @@ with description('Directory Yaml Loader specs') as self:
                     expect(templates.keys()).to(have_length(1))
 
             with context('when there are duplicated keys in different yaml files'):
-                with it('raises RuntimeError->DuplicatedKeyError'):
+                with it('raises DuplicatedKeyError'):
                     def _call_directory_yaml_loader_with_duplicated_keys_in_two_files():
                         directory_yaml_loader_to_fail = DirectoryYamlLoader(_absolute_path(A_PATH_WITH_TWO_YAML_FILES_WITH_DUPLICATED_KEYS))
 

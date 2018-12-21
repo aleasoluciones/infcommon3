@@ -1,2 +1,2 @@
-class DuplicatedKeyError(RuntimeError):
+class DuplicatedKeyError(Exception):
     pass

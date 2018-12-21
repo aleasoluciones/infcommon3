@@ -1,3 +1,7 @@
+2018-12-21
+==========
+* Internal. directory_yaml_loader can raise DuplicatedKeyError(Exception) (no RuntimeError)
+
 2018-12-20
 ==========
 * Update readme with more detailed information
