@@ -1,3 +1,7 @@
+2019-01-09
+==========
+* Internal. Update PyYAML
+
 2018-12-21
 ==========
 * Internal. directory_yaml_loader can raise DuplicatedKeyError(Exception) (no RuntimeError)
