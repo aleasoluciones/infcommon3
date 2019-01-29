@@ -37,11 +37,11 @@ Enter to your virtualenv project and run `dev/setup_venv.sh`
 If you have some error when trying to pip install psycopg2 or mysqlclient try to install manually with
 
 ```
-env LDFLAGS="-I/usr/local/opt/openssl/include -L/usr/local/opt/openssl/lib" pip install mysqlclient==1.3.14
+env LDFLAGS="-I/usr/local/opt/openssl/include -L/usr/local/opt/openssl/lib" pip install mysqlclient==1.4.1
 ```
 
 ```
-env LDFLAGS="-I/usr/local/opt/openssl/include -L/usr/local/opt/openssl/lib" pip install psycopg2==2.7.6.1
+env LDFLAGS="-I/usr/local/opt/openssl/include -L/usr/local/opt/openssl/lib" pip install psycopg2==2.7.7
 ```
 
 ## Run the tests
