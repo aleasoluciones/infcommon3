@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 import os
 import logging
 import traceback
@@ -64,25 +63,28 @@ def configure_sentry_if_exists_env_variable():
 
 configure_sentry_if_exists_env_variable()
 
+
 def info(message, *args, **kwargs):
     _log('info', message, args, kwargs)
+
 
 def debug(message, *args, **kwargs):
     _log('debug', message, args, kwargs)
 
+
 def warning(message, *args, **kwargs):
     _log('warning', message, args, kwargs)
+
 
 def error(message, *args, **kwargs):
     _log('error', message, args, kwargs)
 
+
 def critical(message, *args, **kwargs):
     _log('critical', message, args, kwargs)
+
 
 def _log(level, message, args, kwargs):
    if TEST_MODE_NOT_ENABLED:
         getattr(infrastructure_logger, level)(message, *args, **kwargs)
-
-        Logger().error
-        modulod.error # 64
 
