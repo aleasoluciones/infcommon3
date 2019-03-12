@@ -1,3 +1,7 @@
+2019-03-12
+==========
+* Internal. Logger class check TEST_MODE variable before log
+
 2019-01-09
 ==========
 * Internal. Update PyYAML
