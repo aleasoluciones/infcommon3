@@ -1,3 +1,7 @@
+2019-03-09
+==========
+* Add path to yaml_reader singleton id
+
 2019-03-12
 ==========
 * Internal. Logger class check TEST_MODE variable before log
