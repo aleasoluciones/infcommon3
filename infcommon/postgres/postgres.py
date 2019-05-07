@@ -6,9 +6,10 @@ from retrying import retry
 
 class PostgresClient(object):
 
-    def __init__(self, db_uri):
+    def __init__(self, db_uri, cursor_factory=None):
         self._db_uri = db_uri
         self._connection = None
+        self._cursor_factory = None
 
     def execute(self, query, args=None):
         result = []
@@ -24,11 +25,14 @@ class PostgresClient(object):
         if retries:
             self._connection = self._unreliable_connection()
         else:
-            self._connection = pg.connect(self._db_uri)
+            self._connection = self._connect()
 
         self._connection.autocommit = True
         return self._connection.cursor()
 
     @retry(wait_exponential_multiplier=1000, wait_exponential_max=10000, stop_max_attempt_number=5)
     def _unreliable_connection(self):
-        return pg.connect(self._db_uri)
+        return self._connect()
+
+    def _connect(self):
+        return pg.connect(self._db_uri, cursor_factory=self._cursor_factory)
