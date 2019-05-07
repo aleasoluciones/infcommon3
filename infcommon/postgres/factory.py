@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-import psycopg2
+import psycopg2.extras
 
 from infcommon.factory import Factory
 from infcommon.postgres.postgres import PostgresClient
