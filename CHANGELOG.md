@@ -1,3 +1,7 @@
+2019-06-11
+==========
+* Internal. Do not initialize Sentry if SENTRE_DSN environment variable is '' or None
+
 2019-04-09
 ==========
 * Add path to yaml_reader singleton id

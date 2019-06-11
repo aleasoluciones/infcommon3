@@ -55,7 +55,7 @@ def set_level(level):
 
 def configure_sentry_if_exists_env_variable():
     sentry_dsn_env = os.environ.get('SENTRY_DSN')
-    if sentry_dsn_env is not None:
+    if sentry_dsn_env:
         sentry_conf = {'level': 'CRITICAL',
                         'class': 'raven.handlers.logging.SentryHandler',
                         'dsn': sentry_dsn_env}
