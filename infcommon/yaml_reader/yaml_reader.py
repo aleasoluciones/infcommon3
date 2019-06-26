@@ -21,6 +21,9 @@ class YamlReader(object):
             if not isinstance(value_, bool) and value in value_:
                 return key
 
+    def get_all(self):
+        return self._load_file()
+
     def __getitem__(self, key):
         return self._load_file()[key]
 

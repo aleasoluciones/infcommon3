@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import os
-import tempfile
-
 import yaml
+import tempfile
 
 from mamba import description, context, it, before, after
 from expects import expect, equal, be, be_an, raise_error, be_true, be_false
@@ -21,17 +20,23 @@ A_TRUE_BOOLEAN_PARAMETER_VALUE = True
 A_FALSE_BOOLEAN_PARAMETER_VALUE = False
 
 
+YAML_CONTENT = {KEY: VALUE,
+                A_TRUE_BOOLEAN_PARAMETER: A_TRUE_BOOLEAN_PARAMETER_VALUE,
+                A_FALSE_BOOLEAN_PARAMETER: A_FALSE_BOOLEAN_PARAMETER_VALUE,}
+
 with description('YamlReader') as self:
     def _generate_file_and_return_name(self):
         with tempfile.NamedTemporaryFile(mode='w', delete=False) as keyvalue_file:
-            keyvalue_file.write(yaml.dump({KEY: VALUE,
-                                           A_TRUE_BOOLEAN_PARAMETER: A_TRUE_BOOLEAN_PARAMETER_VALUE,
-                                           A_FALSE_BOOLEAN_PARAMETER: A_FALSE_BOOLEAN_PARAMETER_VALUE,}))
+            keyvalue_file.write(yaml.dump(YAML_CONTENT))
             return keyvalue_file.name
 
     def _generate_invalid_file_and_return_name(self):
         with tempfile.NamedTemporaryFile(mode='w', delete=False) as keyvalue_file:
             keyvalue_file.write('')
+            return keyvalue_file.name
+
+    def _generate_empty_file(self):
+        with tempfile.NamedTemporaryFile(mode='w', delete=False) as keyvalue_file:
             return keyvalue_file.name
 
     with context('given an invalid yaml file'):
@@ -111,3 +116,10 @@ with description('YamlReader') as self:
                        result = self.yaml_reader.get_key_by(value=VALUE)
 
                        expect(result).to(equal(KEY))
+
+            with context('when getting all the content'):
+                with context('having yaml content'):
+                    with it('returns content'):
+                        all_content = self.yaml_reader.get_all()
+
+                        expect(all_content).to(equal(YAML_CONTENT))
