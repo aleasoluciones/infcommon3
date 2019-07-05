@@ -3,7 +3,7 @@ from expects import expect, equal, raise_error
 from doublex import Stub, when
 
 from infcommon.yaml_reader.yaml_reader import YamlReader
-from infcommon.settings_retriever.settings_retriever import SettingsRetriever
+from infcommon.settings_retriever.settings_retriever import SettingsRetriever, SettingsRetrieverKeyNotFoundError
 
 A_KEY = 'a_key'
 AN_ENVIRONMENT_VALUE = 'an_environment_value'
@@ -48,13 +48,23 @@ with describe('Settings') as self:
                     expect(value).to(equal(A_FILE_VALUE))
 
             with context('variable file is NOT present'):
-                with it('returns the default value'):
-                    envs = {}
-                    settings = SettingsRetriever(envs, self.settings_file)
+                with context('when a fail_on_key_not_found flag is NOT present'):
+                    with it('returns the default value'):
+                        envs = {}
+                        settings = SettingsRetriever(envs, self.settings_file)
 
-                    value = settings.get_value(key=A_KEY, default_value=A_DEFAULT_VALUE)
+                        value = settings.get_value(key=A_KEY, default_value=A_DEFAULT_VALUE, fail_on_key_not_found=False)
+                        expect(value).to(equal(A_DEFAULT_VALUE))
 
-                    expect(value).to(equal(A_DEFAULT_VALUE))
+                with context('when a fail_on_key_not_found flag is present'):
+                    with it('returns an exception'):
+                        envs = {}
+                        settings = SettingsRetriever(envs, self.settings_file)
+
+                        def _exception():
+                            value = settings.get_value(key=A_KEY, default_value=None, fail_on_key_not_found=True)
+
+                        expect(_exception).to(raise_error(SettingsRetrieverKeyNotFoundError))
 
     with context('FEATURE: get parsed integer value'):
         with context('when an environment variable can be parsed to int'):

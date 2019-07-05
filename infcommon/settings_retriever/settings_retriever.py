@@ -1,3 +1,6 @@
+class SettingsRetrieverKeyNotFoundError(Exception):
+    pass
+
 class SettingsRetriever(object):
     TRUTHY_VALUES = [True, 1, 'True', '1', 'Y']
 
@@ -5,13 +8,15 @@ class SettingsRetriever(object):
         self._envs = envs
         self._settings_file = settings_file
 
-    def get_value(self, key, default_value=None):
+    def get_value(self, key, default_value=None, fail_on_key_not_found=False):
         envs_value = self._envs.get(key)
         if envs_value:
             return envs_value
         file_value = self._settings_file.get(key)
         if file_value:
             return file_value
+        if fail_on_key_not_found:
+            raise SettingsRetrieverKeyNotFoundError()
         return default_value
 
     def get_int(self, key, default_value=None):
