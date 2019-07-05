@@ -4,6 +4,8 @@ import yaml
 
 from infcommon.info_container.info_container import InfoContainer
 
+class YamlReaderNotValidFileError(BaseException):
+    pass
 
 class YamlReader(object):
 
@@ -17,7 +19,7 @@ class YamlReader(object):
         return InfoContainer(self._load_file(), return_none=True)
 
     def get_key_by(self, value):
-        for key, value_ in self._load_file().items():
+        for key, value_ in self._load_file().iteritems():
             if not isinstance(value_, bool) and value in value_:
                 return key
 
@@ -29,7 +31,8 @@ class YamlReader(object):
 
     def _load_file(self):
         with open(self._path) as f:
-            content = yaml.load(f)
-            if not content:
-                raise Exception('Not a valid Yaml file')
-            return content
+            try:
+                content = yaml.load(f)
+                return content
+            except yaml.error.MarkedYAMLError as exc:
+                raise YamlReaderNotValidFileError(str(exc))

@@ -7,7 +7,7 @@ import tempfile
 from mamba import description, context, it, before, after
 from expects import expect, equal, be, be_an, raise_error, be_true, be_false
 
-from infcommon.yaml_reader.yaml_reader import YamlReader
+from infcommon.yaml_reader.yaml_reader import YamlReader, YamlReaderNotValidFileError
 from infcommon.info_container.info_container import InfoContainer
 
 
@@ -32,7 +32,7 @@ with description('YamlReader') as self:
 
     def _generate_invalid_file_and_return_name(self):
         with tempfile.NamedTemporaryFile(mode='w', delete=False) as keyvalue_file:
-            keyvalue_file.write('')
+            keyvalue_file.write('unbalanced blackets: ]')
             return keyvalue_file.name
 
     def _generate_empty_file(self):
@@ -40,14 +40,14 @@ with description('YamlReader') as self:
             return keyvalue_file.name
 
     with context('given an invalid yaml file'):
-        with it('raises Exception'):
+        with fit('raises Exception'):
             invalid_yaml_file = self._generate_invalid_file_and_return_name()
             invalid_yaml_reader = YamlReader(invalid_yaml_file)
 
             def _accesing_attribute_from_invalidad_yaml_file():
                 invalid_yaml_reader[KEY]
 
-            expect(_accesing_attribute_from_invalidad_yaml_file).to(raise_error(Exception, 'Not a valid Yaml file'))
+            expect(_accesing_attribute_from_invalidad_yaml_file).to(raise_error(YamlReaderNotValidFileError))
 
             os.unlink(invalid_yaml_file)
 
