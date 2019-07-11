@@ -16,6 +16,7 @@ def yaml_reader(path=None):
     return Factory.instance(yaml_reader_id,
                             lambda: YamlReader(path))
 
+
 def directory_yaml_loader(path=None):
     directory_yaml_loader_id = 'directory_yaml_loader_{}'.format(path)
     return Factory.instance(directory_yaml_loader_id,

@@ -1,5 +1,9 @@
+# -*- coding: utf-8 -*-
+
+
 class SettingsRetrieverKeyNotFoundError(Exception):
     pass
+
 
 class SettingsRetriever(object):
     TRUTHY_VALUES = [True, 1, 'True', '1', 'Y']
@@ -28,5 +32,3 @@ class SettingsRetriever(object):
         if result_value in self.TRUTHY_VALUES:
             return True
         return False
-
-

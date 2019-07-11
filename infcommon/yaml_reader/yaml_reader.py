@@ -4,8 +4,10 @@ import yaml
 
 from infcommon.info_container.info_container import InfoContainer
 
+
 class YamlReaderNotValidFileError(BaseException):
     pass
+
 
 class YamlReader(object):
 

@@ -5,7 +5,6 @@ from retrying import retry
 
 
 class PostgresClient(object):
-
     def __init__(self, db_uri, cursor_factory=None):
         self._db_uri = db_uri
         self._connection = None
