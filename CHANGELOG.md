@@ -1,3 +1,7 @@
+2019-08-14
+==========
+* Feature. Always return variable value if present in environment variables
+
 2019-06-11
 ==========
 * Internal. Do not initialize Sentry if SENTRE_DSN environment variable is '' or None

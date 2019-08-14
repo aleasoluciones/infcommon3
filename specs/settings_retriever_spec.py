@@ -7,6 +7,7 @@ from infcommon.settings_retriever.settings_retriever import SettingsRetriever, S
 
 A_KEY = 'a_key'
 AN_ENVIRONMENT_VALUE = 'an_environment_value'
+AN_EMPTY_STRING = ''
 A_FILE_VALUE = 'a_file_value'
 A_DEFAULT_VALUE = 'a_default_value'
 A_NUMBER_AS_INTEGER = 23
@@ -35,6 +36,15 @@ with describe('Settings') as self:
                 value = settings.get_value(key=A_KEY)
 
                 expect(value).to(equal(AN_ENVIRONMENT_VALUE))
+
+            with context('and is an empty string'):
+                with it('returns enviroment value'):
+                    envs = {A_KEY: AN_EMPTY_STRING}
+                    settings = SettingsRetriever(envs, self.settings_file)
+
+                    value = settings.get_value(key=A_KEY)
+
+                    expect(value).to(equal(AN_EMPTY_STRING))
 
         with context('when enviroment variable is NOT present'):
             with context('variable file is present'):
