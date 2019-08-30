@@ -36,6 +36,7 @@ install:
 script:
   - ./dev/unit_tests.sh
   - ./dev/integration_tests_for_travis.sh
+  - ./dev/factory_tests.sh
 
 notifications:
   email:
