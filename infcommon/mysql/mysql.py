@@ -14,6 +14,9 @@ class MySQLClient(object):
     def __init__(self, db_uri):
         self._db_uri = db_uri
 
+    def set_db_uri(self, db_uri):
+        self._db_uri = db_uri
+
     @retry(wait_exponential_multiplier=1000, wait_exponential_max=10000, stop_max_attempt_number=5, retry_on_exception=lambda e: isinstance(e, MySQLdb.Error))
     def execute(self, sql_query, args=None):
         with warnings.catch_warnings():
