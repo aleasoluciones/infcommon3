@@ -5,6 +5,7 @@ from expects import expect, equal, raise_error, have_property, contain
 from doublex import Spy, when, ANY_ARG
 
 import json
+import jsonpickle
 import pickle
 import datetime
 
@@ -109,11 +110,19 @@ with description('JsonPickleSerializer'):
     with before.each:
         self.serializer = JsonPickleSerializer()
 
-    with _context('when serializing/coding to jsonpickle'):
-        with it('PENDING...'):
-            pass
+    with context('when serializing/coding to jsonpickle'):
+        with it('returns a jsonpickle'):
+            serialized = self.serializer.dumps(A_SIMPLE_DATA)
 
-    with _context('when deserializing/decoding from jsonpickle'):
-        with it('PENDING...'):
-            pass
+            expect(jsonpickle.decode(serialized)).to(equal(A_SIMPLE_DATA))
 
+    with context('when deserializing/decoding from jsonpickle'):
+        with it('returns the expected data'):
+            data = A_SIMPLE_DATA
+            t = datetime.datetime(2015, 5, 13, 12, 50, 19)
+            data['timestamp'] = t
+            serialized_data = self.serializer.dumps(data)
+
+            deserialized_data = self.serializer.loads(serialized_data)
+
+            expect(deserialized_data).to(equal(data))
