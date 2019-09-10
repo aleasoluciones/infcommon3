@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from mamba import description, before, context, it, _context
+from mamba import description, before, context, it
 from expects import expect, equal, raise_error, have_property, contain
 from doublex import Spy, when, ANY_ARG
 
