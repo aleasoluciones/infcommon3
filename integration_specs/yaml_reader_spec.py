@@ -40,7 +40,7 @@ with description('YamlReader') as self:
             return keyvalue_file.name
 
     with context('given an invalid yaml file'):
-        with fit('raises Exception'):
+        with it('raises Exception'):
             invalid_yaml_file = self._generate_invalid_file_and_return_name()
             invalid_yaml_reader = YamlReader(invalid_yaml_file)
 
