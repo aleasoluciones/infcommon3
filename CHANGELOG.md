@@ -1,3 +1,7 @@
+2019-09-11
+==========
+* Feature. Add mysql client to infcommon module
+
 2019-08-14
 ==========
 * Feature. Always return variable value if present in environment variables
