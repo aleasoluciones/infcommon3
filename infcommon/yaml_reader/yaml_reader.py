@@ -21,7 +21,7 @@ class YamlReader(object):
         return InfoContainer(self._load_file(), return_none=True)
 
     def get_key_by(self, value):
-        for key, value_ in self._load_file().iteritems():
+        for key, value_ in self._load_file().items():
             if not isinstance(value_, bool) and value in value_:
                 return key
 
