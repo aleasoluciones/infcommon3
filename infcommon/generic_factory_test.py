@@ -51,7 +51,7 @@ def find_and_call_functions_from():
                             aux = {}
                             for x in required_arguments:
                                 aux[x] = 'irrelevant_argument_value'
-                                element(**aux)
+                            element(**aux)
                         else:
                             element()
                     else:
