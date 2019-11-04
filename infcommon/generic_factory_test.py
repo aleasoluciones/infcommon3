@@ -39,7 +39,24 @@ def find_and_call_functions_from():
             if callable(element):
                 if isinstance(element, types.FunctionType) and not element_name.startswith('__'):
                     LAST_CALL = "===> Exception in Factory file: {} Testing to call: {}".format(factory_file, element_name)
-                    element()
+                    # -----------------------------------------------
+                    # Check if functions has none optional arguments
+                    # -----------------------------------------------
+                    number_of_arguments = element.__code__.co_argcount
+                    all_arguments_and_local_variables_names = element.__code__.co_varnames
+                    arguments_with_default_value = element.__defaults__
+                    if arguments_with_default_value is not None:
+                        required_arguments =  all_arguments_and_local_variables_names[:number_of_arguments - len(arguments_with_default_value)]
+                        if len(required_arguments) > 0:
+                            aux = {}
+                            for x in required_arguments:
+                                aux[x] = 'irrelevant_argument_value'
+                                element(**aux)
+                        else:
+                            element()
+                    else:
+                        element()
+                    # ----------------------------------
                     TOTALS_TESTS_PASSED += 1
                     sys.stdout.write(GREEN_COLOR)
                     sys.stdout.write(".")

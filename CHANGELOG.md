@@ -1,3 +1,7 @@
+2019-11-04
+==========
+* Internal. Generic factory test: check if function has requried arguments
+
 2019-09-11
 ==========
 * Feature. Add mysql client to infcommon module
