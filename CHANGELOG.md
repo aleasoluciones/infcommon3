@@ -1,3 +1,7 @@
+2019-11-20
+==========
+* Internal. Generic factory test: Manage when the function has defaults and/or required arguments
+
 2019-11-19
 ==========
 * Internal. Add execution of sql statements using transactions at PostgresClient

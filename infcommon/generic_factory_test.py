@@ -44,8 +44,8 @@ def find_and_call_functions_from():
                     # -----------------------------------------------
                     number_of_arguments = element.__code__.co_argcount
                     all_arguments_and_local_variables_names = element.__code__.co_varnames
-                    arguments_with_default_value = element.__defaults__
-                    if arguments_with_default_value is not None:
+                    arguments_with_default_value = element.__defaults__ if element.__defaults__ else []
+                    if arguments_with_default_value is not None or len(arguments) > 0:
                         required_arguments =  all_arguments_and_local_variables_names[:number_of_arguments - len(arguments_with_default_value)]
                         if len(required_arguments) > 0:
                             aux = {}
