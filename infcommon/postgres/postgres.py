@@ -28,8 +28,9 @@ class PostgresClient(object):
                     args = query_with_arg[1]
                     my_cursor.execute(query, args)
                 self._connection.commit()
-            except Exception:
+            except Exception as exc:
                 self._connection.rollback()
+                raise exc
 
     def _cursor(self, retries=True, autocommit=True):
         if retries:
