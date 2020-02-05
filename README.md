@@ -7,22 +7,22 @@
 
 ### Requirements
 
-Add python 3.5 or above to your Linux host
+Add python 3.7 or above to your Linux host
 ```
 $ sudo add-apt-repository ppa:fkrull/deadsnakes
 $ sudo apt-get update
-$ sudo apt-get install python-virtualenv python3.5 python3.5-dev
+$ sudo apt-get install python-virtualenv python3.7 python3.7-dev
 ```
 
 ### Configure virtual environment
 You can use virtualenv wrapper (mkvirtualenv)
 ```
-$ mkvirtualenv -p /usr/bin/python3.5 infcommon3
+$ mkvirtualenv -p /usr/bin/python3.7 infcommon3
 ```
 Or default virtualenv
 ```
 $ cd /home/USER/DEV_WORKSPACE/infcommon3
-$ virtualenv -p /usr/bin/python3.5 infcommon3_ve
+$ virtualenv -p /usr/bin/python3.7 infcommon3_ve
 $ source infcommon3ve/bin/activate
 ```
 
