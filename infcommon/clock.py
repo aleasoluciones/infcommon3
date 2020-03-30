@@ -40,6 +40,11 @@ class Clock(object):
         delta = dt2 - dt1
         return delta.days == 0 and delta.seconds == 0
 
+    @staticmethod
+    def timestamp_from_days_ago(timestamp, days):
+        datetime_from_timestamp = Clock.fromtimestamp(timestamp)
+        return Clock.timestamp(datetime_from_timestamp - datetime.timedelta(days=days))
+
 
 class Sleeper(object):
 

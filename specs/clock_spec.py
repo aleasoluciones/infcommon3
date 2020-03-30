@@ -88,3 +88,14 @@ with description('Clock specs') as self:
                 now_in_range = clock.is_current_time_in_range(start=self.start_time, end=self.end_time)
 
                 expect(now_in_range).to(be_false)
+
+    with context('calculating timestamp from xxx days ago for a given timestamp'):
+        with it('returns the timestamp from xxx days ago'):
+            now = clock_module.Clock().now()
+            timestamp = clock_module.Clock().timestamp(now)
+            days_ago = 30
+
+            result = clock_module.Clock.timestamp_from_days_ago(timestamp, days=days_ago)
+
+            expected_timestamp = clock_module.Clock.timestamp(now - datetime.timedelta(days=days_ago))
+            expect(result).to(equal(expected_timestamp))
