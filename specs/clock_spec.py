@@ -104,11 +104,15 @@ with description('Clock specs') as self:
 
     with context('calculating timestamp from xxx days ago for a given timestamp'):
         with it('returns the timestamp from xxx days ago'):
-            now = clock_module.Clock().now()
-            timestamp = clock_module.Clock().timestamp(now)
+            datetime_obj = Stub()
+            sut = clock_module.Clock(datetime_obj=datetime_obj)
+
+            now_from_datetime = datetime.datetime.now()
+            when(datetime_obj).now().returns(now_from_datetime)
+
             days_ago = 30
 
-            result = clock_module.Clock.timestamp_from_days_ago(timestamp, days=days_ago)
+            result = sut.timestamp_from_days_ago(days=days_ago)
 
-            expected_timestamp = clock_module.Clock.timestamp(now - datetime.timedelta(days=days_ago))
+            expected_timestamp = clock_module.Clock.timestamp(now_from_datetime - datetime.timedelta(days=days_ago))
             expect(result).to(equal(expected_timestamp))

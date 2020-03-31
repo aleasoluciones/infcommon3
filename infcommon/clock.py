@@ -26,6 +26,9 @@ class Clock(object):
         now = self.now().time()
         return now >= start and now < end
 
+    def timestamp_from_days_ago(self, days):
+        return Clock.timestamp(self.now() - datetime.timedelta(days=days))
+
     @staticmethod
     def timestamp(t):
         # time.mktime requires LOCAL time and returns UTC
@@ -39,11 +42,6 @@ class Clock(object):
     def aprox(dt1, dt2):
         delta = dt2 - dt1
         return delta.days == 0 and delta.seconds == 0
-
-    @staticmethod
-    def timestamp_from_days_ago(timestamp, days):
-        datetime_from_timestamp = Clock.fromtimestamp(timestamp)
-        return Clock.timestamp(datetime_from_timestamp - datetime.timedelta(days=days))
 
 
 class Sleeper(object):
