@@ -46,6 +46,16 @@ with description('JsonSerializer') as self:
 
             expect(json.loads(serialized)).to(equal(t_timestamp_format))
 
+    with context('when deserializing dict_items'):
+        with it('returns the expected data'):
+            a_dict = {"a": "b", "c": "d"}
+            a_dict_items = a_dict.items()
+
+            serialized = self.serializer.dumps(a_dict_items)
+
+            expected_deserialized_dict_items = [["a", "b"], ["c", "d"]]
+            expect(json.loads(serialized)).to(equal(expected_deserialized_dict_items))
+
 
 with description('JsonOrPickleSerializer'):
     with context('deserializing/decoding'):
