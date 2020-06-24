@@ -3,10 +3,8 @@
 import json
 import datetime
 import pickle
-from collections import abc
 
 import jsonpickle
-
 
 from infcommon.serializer.exceptions import DeserializeError
 
@@ -27,7 +25,7 @@ class JsonSerializer(object):
 def _json_serializer(obj):
     if isinstance(obj, datetime.datetime):
         return (obj - datetime.datetime(1970, 1, 1)).total_seconds()
-    if isinstance(obj, abc.ItemsView):
+    if isinstance(obj, type({}.items())):
         return list(obj)
     return json.JSONEncoder().default(obj)
 
