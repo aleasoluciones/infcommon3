@@ -1,29 +1,21 @@
 # -*- coding: utf-8 -*-
 import os
 import logging
-import traceback
+
 from infcommon import logging_utils
+
 
 TEST_MODE_NOT_ENABLED = os.environ.get('TEST_MODE') is None
 
 
 class Logger(object):
-
     def critical(self, message, *args, **kwargs):
         exc_info = kwargs.pop('exc_info', True)
-        self._log(logging.critical,
-                  self._generate_message_with_traceback(message),
-                  exc_info=exc_info,
-                  *args,
-                  **kwargs)
+        self._log(logging.critical, message, exc_info=exc_info, *args, **kwargs)
 
     def error(self, message, *args, **kwargs):
         exc_info = kwargs.pop('exc_info', True)
-        self._log(logging.error,
-                  self._generate_message_with_traceback(message),
-                  exc_info=exc_info,
-                  *args,
-                  **kwargs)
+        self._log(logging.critical, message, exc_info=exc_info, *args, **kwargs)
 
     def warning(self, message, *args, **kwargs):
         self._log(logging.warning, message, *args, **kwargs)
@@ -36,9 +28,6 @@ class Logger(object):
 
     def set_level(self, level):
         logging.getLogger().setLevel(level)
-
-    def _generate_message_with_traceback(self, message):
-        return 'message: {message}, traceback: {traceback}'.format(message=message, traceback=traceback.format_stack())
 
     def _log(self, function_to_call, message, *args, **kwargs):
         if TEST_MODE_NOT_ENABLED:
@@ -87,4 +76,3 @@ def critical(message, *args, **kwargs):
 def _log(level, message, args, kwargs):
    if TEST_MODE_NOT_ENABLED:
         getattr(infrastructure_logger, level)(message, *args, **kwargs)
-
