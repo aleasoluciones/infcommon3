@@ -15,7 +15,7 @@ class Logger(object):
 
     def error(self, message, *args, **kwargs):
         exc_info = kwargs.pop('exc_info', True)
-        self._log(logging.eror, message, exc_info=exc_info, *args, **kwargs)
+        self._log(logging.error, message, exc_info=exc_info, *args, **kwargs)
 
     def warning(self, message, *args, **kwargs):
         self._log(logging.warning, message, *args, **kwargs)
