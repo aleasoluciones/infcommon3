@@ -25,7 +25,9 @@ branches:
 
 before_install:
   - sudo apt-get -y update || true
+  - echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USER --password-stdin
   - docker run -d --name infcommon_local_bote_mysql -v /etc/localtime:/etc/localtime:ro -v $(pwd)/dev/devdocker/local_mysql_configuration:/docker-entrypoint-initdb.d:ro -e MYSQL_ROOT_PASSWORD=root_pwd -e MYSQL_DATABASE=mysql -e MYSQL_USER=infcommon -e MYSQL_PASSWORD=infcommon_pwd -p 3314:3306 mysql:5.5.45
+  - docker logout
 
 install:
   - python setup.py develop
