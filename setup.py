@@ -14,7 +14,6 @@ setup(name='infcommon',
                         'mysqlclient==1.4.1',
                         'retrying==1.3.3',
                         'psycopg2==2.7.7',
-                        'psycopg2-binary==2.7.7',
                         'PyYAML==4.2b4',
                         'jsonpickle==1.2'
                         ]
