@@ -35,3 +35,8 @@ Then install the dependencies:
 ```bash
 pip install -r requirements.txt
 ```
+
+## Logging configuration
+
+* You can set the SENTRY_DNS environment variable to use Sentry as logger handler.
+* To disable the logs, set the environment variable TEST_MODE (e.g. when executing the tests we don't want logs to be printed or breaking the execution).
