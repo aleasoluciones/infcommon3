@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 import logging
 
@@ -8,7 +7,7 @@ from infcommon import logging_utils
 TEST_MODE_NOT_ENABLED = os.environ.get('TEST_MODE') is None
 
 
-class Logger(object):
+class Logger:
     def critical(self, message, *args, **kwargs):
         exc_info = kwargs.pop('exc_info', True)
         self._log(logging.critical, message, exc_info=exc_info, *args, **kwargs)

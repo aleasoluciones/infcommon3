@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
-
 import datetime
 import time
 
 
-class Clock(object):
+class Clock:
 
     def __init__(self, datetime_obj=datetime.datetime, date_obj=datetime.date):
         self.datetime_obj = datetime_obj
@@ -44,7 +42,7 @@ class Clock(object):
         return delta.days == 0 and delta.seconds == 0
 
 
-class Sleeper(object):
+class Sleeper:
 
     def __init__(self, clock=Clock(), time_module=time):
         self.clock = clock

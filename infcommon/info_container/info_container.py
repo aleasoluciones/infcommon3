@@ -1,9 +1,6 @@
-# -*- coding: utf-8 -*-
-
 import pprint
 
-
-class InfoContainer(object):
+class InfoContainer:
 
     def __init__(self, items, return_none=False):
         self.__items = []

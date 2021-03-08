@@ -2,7 +2,7 @@ import os
 import subprocess
 
 
-class DockerComposeService(object):
+class DockerComposeService:
     def __init__(self, base_dir, docker_compose_file_name):
         self.BASE_DIR = base_dir or os.environ['DOCKER_COMPOSE_ETC']
         self.DEFAULT_DOCKER_COMPOSE_FILE_NAME = docker_compose_file_name or 'docker-compose.yml'

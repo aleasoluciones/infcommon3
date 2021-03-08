@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 
 class DeserializeError(Exception):
     def __init__(self, exception, data):

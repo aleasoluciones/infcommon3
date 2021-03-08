@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
-
 import psycopg2 as pg
 from retrying import retry
 
 
-class PostgresClient(object):
+class PostgresClient:
     def __init__(self, db_uri, cursor_factory=None):
         self._db_uri = db_uri
         self._connection = None

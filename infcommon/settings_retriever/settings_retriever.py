@@ -1,11 +1,9 @@
-# -*- coding: utf-8 -*-
-
 
 class SettingsRetrieverKeyNotFoundError(Exception):
     pass
 
 
-class SettingsRetriever(object):
+class SettingsRetriever:
     TRUTHY_VALUES = [True, 1, 'True', '1', 'Y']
 
     def __init__(self, envs, settings_file):

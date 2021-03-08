@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from infcommon import logger
 
 with description('logger specs'):

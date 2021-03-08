@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from infcommon.factory import Factory
 from infcommon.serializer.serializers import (
     JsonPickleSerializer,

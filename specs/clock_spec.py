@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from doublex import Spy, Stub, when
 from expects import expect, be_true, be_false, equal
 from doublex_expects import have_been_called

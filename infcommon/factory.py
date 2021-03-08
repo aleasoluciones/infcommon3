@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
 
-
-class Factory(object):
+class Factory:
     _instances = {}
 
     @classmethod

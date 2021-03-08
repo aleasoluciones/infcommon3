@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import json
 import datetime
 import pickle
@@ -9,7 +7,7 @@ import jsonpickle
 from infcommon.serializer.exceptions import DeserializeError
 
 
-class JsonSerializer(object):
+class JsonSerializer:
     def loads(self, serialized_object, **kwargs):
         return json.loads(serialized_object, **kwargs)
 
@@ -30,7 +28,7 @@ def _json_serializer(obj):
     return json.JSONEncoder().default(obj)
 
 
-class PickleSerializer(object):
+class PickleSerializer:
     def loads(self, serialized_object, **kwargs):
         return pickle.loads(serialized_object, **kwargs)
 
@@ -38,7 +36,7 @@ class PickleSerializer(object):
         return pickle.dumps(obj, **kwargs)
 
 
-class JsonOrPickleSerializer(object):
+class JsonOrPickleSerializer:
     def __init__(self, json_serializer, pickle_serializer):
         self._serializers = [json_serializer,
                              pickle_serializer]
@@ -57,8 +55,7 @@ class JsonOrPickleSerializer(object):
         raise NotImplementedError('This serializer should not be used to serialize, only deserialize')
 
 
-class JsonPickleSerializer(object):
-
+class JsonPickleSerializer:
     def loads(self, serialized_object, **kwargs):
         return jsonpickle.decode(serialized_object, **kwargs)
 

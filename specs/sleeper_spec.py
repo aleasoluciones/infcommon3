@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from doublex import *
 from expects import *
 from doublex_expects import *

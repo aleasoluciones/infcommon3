@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from urllib.parse import urlparse
 import warnings
 
@@ -9,7 +7,7 @@ from retrying import retry
 MySQLDBExceptionError = MySQLdb.Error
 
 
-class MySQLClient(object):
+class MySQLClient:
 
     def __init__(self, db_uri):
         self._db_uri = db_uri

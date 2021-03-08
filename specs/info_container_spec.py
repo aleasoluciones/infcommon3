@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from mamba import description, context, it
 from expects import expect, equal, be, raise_error
 

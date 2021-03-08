@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import yaml
 
 from infcommon.info_container.info_container import InfoContainer
@@ -9,7 +7,7 @@ class YamlReaderNotValidFileError(BaseException):
     pass
 
 
-class YamlReader(object):
+class YamlReader:
 
     def __init__(self, path):
         self._path = path
