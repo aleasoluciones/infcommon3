@@ -1,6 +1,9 @@
 import os
 import logging
 
+import sentry_sdk
+from sentry_sdk.integrations.logging import LoggingIntegration
+from sentry_sdk.integrations import DidNotEnable
 from infcommon import logging_utils
 
 
@@ -42,12 +45,32 @@ def set_level(level):
 
 
 def configure_sentry_if_exists_env_variable():
-    sentry_dsn_env = os.environ.get('SENTRY_DSN')
-    if sentry_dsn_env:
-        sentry_conf = {'level': 'CRITICAL',
-                        'class': 'raven.handlers.logging.SentryHandler',
-                        'dsn': sentry_dsn_env}
-        logging_utils.add_handler('sentry', sentry_conf)
+    sentry_dsn = os.environ.get('SENTRY_DSN')
+    if not sentry_dsn:
+        return
+
+    integrations = []
+
+    sentry_logging = LoggingIntegration(level=logging.INFO, event_level=logging.CRITICAL)
+    integrations.append(sentry_logging)
+
+    try:
+        from sentry_sdk.integrations.redis import RedisIntegration
+        import redis
+        integrations.append(RedisIntegration())
+    except (ModuleNotFoundError, sentry_sdk.integrations.DidNotEnable):
+        pass
+
+    try:
+        from sentry_sdk.integrations.tornado import TornadoIntegration
+        import tornado
+        integrations.append(TornadoIntegration())
+    except (ModuleNotFoundError, sentry_sdk.integrations.DidNotEnable):
+        pass
+
+    sentry_sdk.init(sentry_dsn,
+                    traces_sample_rate=1.0,
+                    integrations=integrations)
 
 configure_sentry_if_exists_env_variable()
 
