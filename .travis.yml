@@ -6,7 +6,6 @@ services:
 env:
     global:
         - TEST_MODE=1
-        - LOCAL_DB_URI=mysql://infcommon:infcommon_pwd@127.0.0.1:3314/mysql
 
 language: python
 
@@ -16,7 +15,7 @@ matrix:
       dist: xenial
       sudo: true
 python:
-  - '3.6'
+  - '3.7'
 
 # safelist branch to build
 branches:
@@ -25,9 +24,6 @@ branches:
 
 before_install:
   - sudo apt-get -y update || true
-  - echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USER --password-stdin
-  - docker run -d --name infcommon_local_bote_mysql -v /etc/localtime:/etc/localtime:ro -v $(pwd)/dev/devdocker/local_mysql_configuration:/docker-entrypoint-initdb.d:ro -e MYSQL_ROOT_PASSWORD=root_pwd -e MYSQL_DATABASE=mysql -e MYSQL_USER=infcommon -e MYSQL_PASSWORD=infcommon_pwd -p 3314:3306 mysql:5.5.45
-  - docker logout
 
 install:
   - python setup.py develop
@@ -36,7 +32,7 @@ install:
 
 script:
   - ./dev/unit_tests.sh
-  - ./dev/integration_tests_for_travis.sh
+  - ./dev/integration_tests.sh
   - ./dev/factory_tests.sh
 
 notifications:

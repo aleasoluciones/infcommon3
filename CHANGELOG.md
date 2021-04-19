@@ -1,3 +1,7 @@
+2021-4-19
+==========
+* Remove mysql client
+
 2019-11-20
 ==========
 * Internal. Generic factory test: Manage when the function has defaults and/or required arguments
