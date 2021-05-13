@@ -1,29 +1,25 @@
-sudo: required
-
 services:
-- docker
+  - docker
 
 env:
-    global:
-        - TEST_MODE=1
+  global:
+    - TEST_MODE=1
+    - DOCKER_COMPOSE_ETC='./dev/devdocker/'
+    - CONF_FILE=/tmp/
+
+os: linux
+
+dist: focal
 
 language: python
 
-matrix:
-  include:
-    - python: 3.7
-      dist: xenial
-      sudo: true
 python:
   - '3.7'
 
 # safelist branch to build
 branches:
   only:
-      - master
-
-before_install:
-  - sudo apt-get -y update || true
+    - master
 
 install:
   - python setup.py develop
@@ -31,9 +27,9 @@ install:
   - pip install -r requirements-dev.txt
 
 script:
-  - ./dev/unit_tests.sh
-  - ./dev/integration_tests.sh
-  - ./dev/factory_tests.sh
+  - unit_tests
+  - integration_tests
+  - factory_tests
 
 notifications:
   email:
