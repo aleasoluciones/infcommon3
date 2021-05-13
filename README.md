@@ -18,7 +18,7 @@ dev/setup_venv.sh
 ## Running the tests
 
 ```bash
-dev/all_tests.sh
+all_tests
 ```
 
 ## Usage of this library in another project
