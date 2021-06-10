@@ -1,6 +1,6 @@
 # infcommon3
 
-[![Build status](https://secure.travis-ci.org/aleasoluciones/infcommon.svg?branch=master)](https://secure.travis-ci.org/aleasoluciones/infcommon3)
+[![Build status](https://api.travis-ci.com/aleasoluciones/infcommon.svg?branch=master)](https://travis-ci.com/aleasoluciones/infcommon3)
 
 This library contains some utils that are commonly used in most of the Alea's projects.
 
