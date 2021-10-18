@@ -14,5 +14,6 @@ def _settings_file(file_name=None):
 def settings_retriever(file_name=None):
     all_environment_values = dict(os.environ)
     settings_file = _settings_file(file_name)
-    return Factory.instance('settings_retriever',
+    settings_retriever_id = 'settings_retriever_{}'.format(file_name if file_name else "default")
+    return Factory.instance(settings_retriever_id,
                             lambda: SettingsRetriever(all_environment_values, settings_file))
