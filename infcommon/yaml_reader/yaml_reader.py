@@ -32,7 +32,7 @@ class YamlReader:
     def _load_file(self):
         with open(self._path) as f:
             try:
-                content = yaml.load(f)
+                content = yaml.load(f, Loader=yaml.FullLoader)
                 return content
             except yaml.error.MarkedYAMLError as exc:
                 raise YamlReaderNotValidFileError(str(exc))

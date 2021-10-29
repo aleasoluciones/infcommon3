@@ -16,15 +16,15 @@ language: python
 python:
   - '3.7'
 
-# safelist branch to build
 branches:
   only:
     - master
 
 install:
-  - python setup.py develop
-  - pip install -r requirements.txt
-  - pip install -r requirements-dev.txt
+  - python -m pip install --upgrade pip wheel
+  - python -m pip install -r requirements.txt
+  - python -m pip install -r requirements-dev.txt
+  - python -m pip install -e .
 
 script:
   - unit_tests

@@ -5,15 +5,11 @@ setup(name='infcommon',
       author='Bifer Team',
       description='Common Infrastructure Utilities',
       platforms='Linux',
-      packages=find_packages(exclude=['ez_setup',
-                                      'examples',
-                                      'tests',
-                                      'specs',
+      packages=find_packages(exclude=['specs',
                                       'integration_specs']),
-      install_requires=['sentry-sdk==1.1.0',
+      install_requires=['sentry-sdk==1.4.3',
                         'aiocontextvars==0.2.2',
-                        'PyYAML==4.2b4',
-                        'jsonpickle==1.2'
+                        'PyYAML==6.0',
+                        'jsonpickle==2.0.0'
                         ]
       )
-
