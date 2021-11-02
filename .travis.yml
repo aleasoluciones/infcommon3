@@ -21,9 +21,9 @@ branches:
     - master
 
 install:
-  - python -m pip install --upgrade pip wheel
-  - python -m pip install -r requirements.txt
-  - python -m pip install -r requirements-dev.txt
+  - python -m pip install --no-cache-dir --upgrade pip wheel
+  - python -m pip install --no-cache-dir -r requirements-versioned.txt
+  - python -m pip install --no-cache-dir -r requirements-dev.txt
   - python -m pip install -e .
 
 script:

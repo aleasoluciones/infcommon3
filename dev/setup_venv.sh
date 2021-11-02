@@ -5,7 +5,7 @@ if [ -z "$VIRTUAL_ENV" ]; then
 else
     python -m pip install --upgrade pip wheel
 
-    python -m pip install --upgrade -r requirements.txt
+    python -m pip install --upgrade -r requirements-versioned.txt
     python -m pip install --upgrade -r requirements-dev.txt
 
     python -m pip install --upgrade -e .
