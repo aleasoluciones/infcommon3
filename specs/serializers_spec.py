@@ -124,6 +124,16 @@ with description('JsonPickleSerializer'):
 
             expect(jsonpickle.decode(serialized)).to(equal(A_SIMPLE_DATA))
 
+        with it('does NOT use object references'):
+            an_object = [1]
+            an_id_identical_object = an_object
+            data = {}
+            data['key1'] = an_object
+            data['key2'] = an_id_identical_object
+
+            serialized_data = self.serializer.dumps(data)
+            expect(serialized_data).to(equal('{"key1": [1], "key2": [1]}'))
+
     with context('when deserializing/decoding from jsonpickle'):
         with it('returns the expected data'):
             data = A_SIMPLE_DATA

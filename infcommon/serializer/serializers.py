@@ -60,4 +60,5 @@ class JsonPickleSerializer:
         return jsonpickle.decode(serialized_object, **kwargs)
 
     def dumps(self, obj, **kwargs):
+        kwargs['make_refs'] = False
         return jsonpickle.encode(obj, **kwargs)
