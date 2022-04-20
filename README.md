@@ -1,15 +1,15 @@
 # infcommon3
 
 [![Build status](https://api.travis-ci.com/aleasoluciones/infcommon.svg?branch=master)](https://travis-ci.com/aleasoluciones/infcommon3)
+![Python versions supported](https://img.shields.io/badge/supports%20python-3.7%20|%203.8%20|%203.9-blue.svg)
+
 
 This library contains some utils that are commonly used in most of the Alea's projects.
 
 ## Installation
 
-This library works with **Python 3.7**.
-
 ```bash
-mkvirtualenv infcommon3 -p $(which python3.7)
+mkvirtualenv infcommon3 -p $(which python3)
 workon infcommon3
 source dev/env_develop
 dev/setup_venv.sh
@@ -33,7 +33,7 @@ To use this library add the line below to your *requirements.txt*:
 Then install the dependencies:
 
 ```bash
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 ## Logging configuration
