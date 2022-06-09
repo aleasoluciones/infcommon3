@@ -8,7 +8,7 @@ from infcommon.yaml_reader.exceptions import DuplicatedKeyError
 
 
 BASE_PATH = os.path.abspath(os.path.dirname(__file__) + '/tests_resources')
-A_PATH_WITH_TWO_YAML = 'isp_templates'
+A_PATH_WITH_THREE_YAML = 'isp_templates'
 NUMBER_OF_TEMPLATES_IN_A_PATH_WITH_TWO_YAML = 4
 A_PATH_WITH_A_BAD_AND_GOOD_YAML = 'bad_and_good_isp_templates'
 NUMBER_OF_TEMPLATES_IN_A_PATH_WITH_A_BAD_AND_GOOD_YAML = 1
@@ -23,7 +23,7 @@ with description('Directory Yaml Loader specs') as self:
     with context('loading all yaml/yml files from folder'):
         with context('when there are yaml files (HappyPath)'):
             with it('retrieves all existing keys'):
-                directory_yaml_loader = DirectoryYamlLoader(_absolute_path(A_PATH_WITH_TWO_YAML))
+                directory_yaml_loader = DirectoryYamlLoader(_absolute_path(A_PATH_WITH_THREE_YAML))
 
                 templates = directory_yaml_loader.load_all()
 

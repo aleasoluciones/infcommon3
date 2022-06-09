@@ -16,7 +16,8 @@ class DirectoryYamlLoader:
             if self._keys_are_already_used(result, file_data):
                 exception_message = 'file:{} keys:{}'.format(filename, file_data.keys())
                 raise DuplicatedKeyError(exception_message)
-            result.update(file_data)
+            if file_data:
+                result.update(file_data)
         return result
 
     def _sync_files(self):
@@ -32,4 +33,5 @@ class DirectoryYamlLoader:
                 return {}
 
     def _keys_are_already_used(self, all_dict, current_dict):
-        return len(set(all_dict.keys()) & set(current_dict.keys())) > 0
+        if all_dict != {} and current_dict != {}:
+            return len(set(all_dict.keys()) & set(current_dict.keys())) > 0
