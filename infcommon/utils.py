@@ -2,7 +2,7 @@ import time
 import datetime
 import logging
 
-MIN_SLEEP_TIME = 0.2
+MIN_SLEEP_TIME = 0.5
 MAX_RECONNECTION_TIME = 10
 SUCESSFUL_RECONNECTION_TIME = 30
 
