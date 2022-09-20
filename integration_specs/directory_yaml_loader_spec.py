@@ -10,6 +10,7 @@ from infcommon.yaml_reader.exceptions import DuplicatedKeyError
 BASE_PATH = os.path.abspath(os.path.dirname(__file__) + '/tests_resources')
 A_PATH_WITH_THREE_YAML = 'isp_templates'
 NUMBER_OF_TEMPLATES_IN_A_PATH_WITH_TWO_YAML = 4
+NUMBER_OF_TEMPLATES_IN_A_PATH_WITH_THREE_YAML = 4
 A_PATH_WITH_A_BAD_AND_GOOD_YAML = 'bad_and_good_isp_templates'
 NUMBER_OF_TEMPLATES_IN_A_PATH_WITH_A_BAD_AND_GOOD_YAML = 1
 A_PATH_WITH_A_BAD_YAML = 'bad_isp_templates'
@@ -27,7 +28,7 @@ with description('Directory Yaml Loader specs') as self:
 
                 templates = directory_yaml_loader.load_all()
 
-                expect(templates.keys()).to(have_length(NUMBER_OF_TEMPLATES_IN_A_PATH_WITH_TWO_YAML))
+                expect(templates.keys()).to(have_length(NUMBER_OF_TEMPLATES_IN_A_PATH_WITH_THREE_YAML))
 
         with context('when there are some yaml files which are invalid'):
             with context('when a yaml file is an invalid yaml'):

@@ -33,5 +33,5 @@ class DirectoryYamlLoader:
                 return {}
 
     def _keys_are_already_used(self, all_dict, current_dict):
-        if all_dict != {} and current_dict != {}:
+        if all_dict != {} and current_dict != None:
             return len(set(all_dict.keys()) & set(current_dict.keys())) > 0
