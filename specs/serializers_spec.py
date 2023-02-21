@@ -2,6 +2,7 @@ from mamba import description, before, context, it
 from expects import expect, equal, raise_error, have_property, contain
 from doublex import Spy, when, ANY_ARG
 
+from collections import defaultdict
 import json
 import jsonpickle
 import pickle
@@ -133,6 +134,14 @@ with description('JsonPickleSerializer'):
 
             serialized_data = self.serializer.dumps(data)
             expect(serialized_data).to(equal('{"key1": [1], "key2": [1]}'))
+
+        with context('and having a default dict with some content'):
+            with it('returns a jsonpickle'):
+                a_default_dict = defaultdict(list)
+                a_default_dict['an_element'] = 'a_value'
+                serialized = self.serializer.dumps(a_default_dict)
+
+                expect(jsonpickle.decode(serialized)).to(equal(a_default_dict))
 
     with context('when deserializing/decoding from jsonpickle'):
         with it('returns the expected data'):

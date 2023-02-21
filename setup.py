@@ -10,6 +10,6 @@ setup(name='infcommon',
       install_requires=['sentry-sdk==1.15.0',
                         'aiocontextvars==0.2.2',
                         'PyYAML==6.0',
-                        'jsonpickle==2.0.0'
+                        'jsonpickle==3.0.1'
                         ]
       )
