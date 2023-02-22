@@ -1,7 +1,7 @@
 # infcommon3
 
-[![Build status](https://api.travis-ci.com/aleasoluciones/infcommon.svg?branch=master)](https://travis-ci.com/aleasoluciones/infcommon3)
-![Python versions supported](https://img.shields.io/badge/supports%20python-3.7%20|%203.8%20|%203.9-blue.svg)
+[![CI](https://github.com/aleasoluciones/infcommon3/actions/workflows/ci.yml/badge.svg)](https://github.com/aleasoluciones/infcommon3/actions/workflows/ci.yml)
+![Python versions supported](https://img.shields.io/badge/supports%20python-3.9%20|%203.10%20|%203.11-blue.svg)
 
 
 This library contains some utils that are commonly used in most of the Alea's projects.
