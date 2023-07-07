@@ -1,4 +1,5 @@
 import yaml
+from yamlinclude import YamlIncludeConstructor
 
 from infcommon.info_container.info_container import InfoContainer
 
@@ -11,6 +12,7 @@ class YamlReader:
 
     def __init__(self, path):
         self._path = path
+        YamlIncludeConstructor.add_to_loader_class(loader_class=yaml.FullLoader, base_dir=self._path)
 
     def get(self, key):
         return self._load_file().get(key)

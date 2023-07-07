@@ -22,9 +22,10 @@ YAML_CONTENT = {KEY: VALUE,
                 A_TRUE_BOOLEAN_PARAMETER: A_TRUE_BOOLEAN_PARAMETER_VALUE,
                 A_FALSE_BOOLEAN_PARAMETER: A_FALSE_BOOLEAN_PARAMETER_VALUE,}
 
+
 with description('YamlReader') as self:
     def _generate_file_and_return_name(self):
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as keyvalue_file:
+        with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.yaml') as keyvalue_file:
             keyvalue_file.write(yaml.dump(YAML_CONTENT))
             return keyvalue_file.name
 
@@ -36,6 +37,12 @@ with description('YamlReader') as self:
     def _generate_empty_file(self):
         with tempfile.NamedTemporaryFile(mode='w', delete=False) as keyvalue_file:
             return keyvalue_file.name
+
+    def _generate_file_including_yaml(self):
+        with tempfile.NamedTemporaryFile(mode='w', delete=False) as keyvalue_file:
+            included_filename = self._generate_file_and_return_name()
+            keyvalue_file.write(f'!include {included_filename}')
+            return keyvalue_file.name, included_filename
 
     with context('given an invalid yaml file'):
         with it('raises Exception'):
@@ -50,7 +57,6 @@ with description('YamlReader') as self:
             os.unlink(invalid_yaml_file)
 
     with context('given a valid yaml file'):
-
         with before.all:
             self.yaml_file = self._generate_file_and_return_name()
             self.yaml_reader = YamlReader(self.yaml_file)
@@ -121,3 +127,18 @@ with description('YamlReader') as self:
                         all_content = self.yaml_reader.get_all()
 
                         expect(all_content).to(equal(YAML_CONTENT))
+
+    with context('loading yaml files from another yaml'):
+        with before.all:
+            self.yaml_file, self.included_yaml_file = self._generate_file_including_yaml()
+            self.yaml_reader = YamlReader(self.yaml_file)
+
+        with after.all:
+            os.unlink(self.yaml_file)
+            os.unlink(self.included_yaml_file)
+
+        with context('given a yaml file including yaml'):
+            with it('returns all info'):
+                result = self.yaml_reader.get_all()
+
+                expect(result).to(equal(YAML_CONTENT))
