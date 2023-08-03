@@ -1,3 +1,4 @@
+import re
 import yaml
 
 from infcommon.info_container.info_container import InfoContainer
@@ -30,9 +31,20 @@ class YamlReader:
         return self._load_file()[key]
 
     def _load_file(self):
+        try:
+            return self._custom_load_file()
+        except yaml.error.MarkedYAMLError as exc:
+            raise YamlReaderNotValidFileError(str(exc))
+
+    def _custom_load_file(self):
+        content = []
         with open(self._path) as f:
-            try:
-                content = yaml.load(f, Loader=yaml.FullLoader)
-                return content
-            except yaml.error.MarkedYAMLError as exc:
-                raise YamlReaderNotValidFileError(str(exc))
+            for line in f.readlines():
+                match = re.match('^!include (.*$)', line)
+                if match:
+                    with open(match.group(1), 'r') as include_f:
+                        for line in include_f.readlines():
+                            content.append(line)
+                else:
+                    content.append(line)
+        return yaml.load(''.join(content), Loader=yaml.FullLoader)
