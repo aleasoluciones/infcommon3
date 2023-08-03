@@ -18,7 +18,6 @@ A_PATH_WITHOUT_YAML = 'no_isp_templates'
 A_NON_EXISTENT_PATH = 'a_non_existent_path'
 A_PATH_WITH_A_YAML_FILE_WITH_DUPLICATED_KEYS = 'isp_templates_with_duplicated_keys'
 A_PATH_WITH_TWO_YAML_FILES_WITH_DUPLICATED_KEYS = 'isp_templates_with_duplicated_keys_in_files'
-A_PATH_INCLUDING_FILES = 'including_files'
 
 
 with description('Directory Yaml Loader specs') as self:
@@ -84,14 +83,6 @@ with description('Directory Yaml Loader specs') as self:
                     expect(_call_directory_yaml_loader_with_duplicated_keys_in_two_files).to(raise_error(DuplicatedKeyError,
                                                                                                          contain(expected_file_name,
                                                                                                                  expected_keys_name_duplicated)))
-
-    with context('including files from other files'):
-        with it('retrieves all existing keys'):
-            directory_yaml_loader = DirectoryYamlLoader(_absolute_path(A_PATH_INCLUDING_FILES))
-
-            templates = directory_yaml_loader.load_all()
-
-            expect(templates).to(equal({"key": "value"}))
 
 
 def _absolute_path(path):

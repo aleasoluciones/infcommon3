@@ -1,7 +1,6 @@
 import os
 import glob
 import yaml
-from yamlinclude import YamlIncludeConstructor
 
 from infcommon.yaml_reader.exceptions import DuplicatedKeyError
 
@@ -9,8 +8,6 @@ from infcommon.yaml_reader.exceptions import DuplicatedKeyError
 class DirectoryYamlLoader:
     def __init__(self, path):
         self._path = path
-        YamlIncludeConstructor.add_to_loader_class(loader_class=yaml.FullLoader, base_dir=self._path)
-
 
     def load_all(self):
         result = {}
@@ -31,7 +28,7 @@ class DirectoryYamlLoader:
     def _load_data_from_file(self, filename):
         with open(filename, 'r') as stream:
             try:
-                return yaml.load(stream, Loader=yaml.FullLoader)
+                return yaml.safe_load(stream)
             except yaml.YAMLError:
                 return {}
 
