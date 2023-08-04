@@ -67,3 +67,6 @@ target/
 
 #vim
 tags*
+
+# pyenv
+.python-version

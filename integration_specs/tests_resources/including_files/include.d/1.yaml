@@ -1,0 +1,5 @@
+1:
+  key1: value1
+
+default: &default
+  key2: value2

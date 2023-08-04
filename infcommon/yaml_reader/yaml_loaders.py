@@ -1,4 +1,5 @@
 import os
+import re
 import glob
 import yaml
 
@@ -14,23 +15,30 @@ class DirectoryYamlLoader:
         for filename in self._sync_files():
             file_data = self._load_data_from_file(filename)
             if self._keys_are_already_used(result, file_data):
-                exception_message = 'file:{} keys:{}'.format(filename, file_data.keys())
+                exception_message = f'file:{filename} keys:{file_data.keys()}'
                 raise DuplicatedKeyError(exception_message)
             if file_data:
-                result.update(file_data)
+                result |= file_data
         return result
 
     def _sync_files(self):
-        filenames = [filename for filename in glob.glob(self._path + '/*[.ya?ml]')]
-        filenames_with_absolute_path = ['{}/{}'.format(self._path, os.path.basename(filename)) for filename in filenames]
-        return filenames_with_absolute_path
+        filenames = list(glob.glob(f'{self._path}/*[.ya?ml]'))
+        return [f'{self._path}/{os.path.basename(filename)}' for filename in filenames]
 
     def _load_data_from_file(self, filename):
-        with open(filename, 'r') as stream:
-            try:
-                return yaml.safe_load(stream)
-            except yaml.YAMLError:
-                return {}
+        try:
+            content = []
+            with open(filename) as f:
+                for line in f:
+                    if match := re.match('^!include (.*$)', line):
+                        folder_path = os.path.dirname(filename)
+                        with open(f'{folder_path}/{match[1]}', 'r') as include_f:
+                            content.extend(iter(include_f))
+                    else:
+                        content.append(line)
+            return yaml.load(''.join(content), Loader=yaml.FullLoader)
+        except yaml.YAMLError:
+            return {}
 
     def _keys_are_already_used(self, all_dict, current_dict):
         if all_dict != {} and current_dict != None:

@@ -1,3 +1,4 @@
+import os
 import re
 import yaml
 
@@ -34,17 +35,16 @@ class YamlReader:
         try:
             return self._custom_load_file()
         except yaml.error.MarkedYAMLError as exc:
-            raise YamlReaderNotValidFileError(str(exc))
+            raise YamlReaderNotValidFileError(str(exc)) from exc
 
     def _custom_load_file(self):
         content = []
         with open(self._path) as f:
-            for line in f.readlines():
-                match = re.match('^!include (.*$)', line)
-                if match:
-                    with open(match.group(1), 'r') as include_f:
-                        for line in include_f.readlines():
-                            content.append(line)
+            for line in f:
+                if match := re.match('^!include (.*$)', line):
+                    folder_path = os.path.dirname(self._path)
+                    with open(f'{folder_path}/{match[1]}', 'r') as include_f:
+                        content.extend(iter(include_f))
                 else:
                     content.append(line)
         return yaml.load(''.join(content), Loader=yaml.FullLoader)

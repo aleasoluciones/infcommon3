@@ -1,0 +1,4 @@
+!include include.d/1.yaml
+0:
+  <<: *default
+  key0: value0

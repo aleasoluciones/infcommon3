@@ -1,13 +1,13 @@
-from mamba import description, context, it
-from expects import expect, equal, raise_error, have_length, contain
 import os
 
+from mamba import description, context, it
+from expects import expect, equal, raise_error, have_length, contain
 
 from infcommon.yaml_reader.yaml_loaders import DirectoryYamlLoader
 from infcommon.yaml_reader.exceptions import DuplicatedKeyError
 
 
-BASE_PATH = os.path.abspath(os.path.dirname(__file__) + '/tests_resources')
+BASE_PATH = os.path.abspath(f'{os.path.dirname(__file__)}/tests_resources')
 A_PATH_WITH_THREE_YAML = 'isp_templates'
 NUMBER_OF_TEMPLATES_IN_A_PATH_WITH_TWO_YAML = 4
 NUMBER_OF_TEMPLATES_IN_A_PATH_WITH_THREE_YAML = 4
@@ -18,6 +18,8 @@ A_PATH_WITHOUT_YAML = 'no_isp_templates'
 A_NON_EXISTENT_PATH = 'a_non_existent_path'
 A_PATH_WITH_A_YAML_FILE_WITH_DUPLICATED_KEYS = 'isp_templates_with_duplicated_keys'
 A_PATH_WITH_TWO_YAML_FILES_WITH_DUPLICATED_KEYS = 'isp_templates_with_duplicated_keys_in_files'
+A_PATH_INCLUDING_FILES = 'including_files'
+COMPLEX_YAML_CONTENT_WITH_INCLUDES = {1: {'key1': 'value1'}, 'default': {'key2': 'value2'}, 0: {'key2': 'value2', 'key0': 'value0'}}
 
 
 with description('Directory Yaml Loader specs') as self:
@@ -78,12 +80,20 @@ with description('Directory Yaml Loader specs') as self:
 
                         directory_yaml_loader_to_fail.load_all()
 
-                    expected_file_name = 'duplicated_isp_templates'
-                    expected_keys_name_duplicated = 'a_duplicated_key'
+                    EXPECTED_FILE_NAME = 'duplicated_isp_templates'
+                    EXPECTED_KEYS_NAME_DUPLICATED = 'a_duplicated_key'
                     expect(_call_directory_yaml_loader_with_duplicated_keys_in_two_files).to(raise_error(DuplicatedKeyError,
-                                                                                                         contain(expected_file_name,
-                                                                                                                 expected_keys_name_duplicated)))
+                                                                                                         contain(EXPECTED_FILE_NAME,
+                                                                                                                 EXPECTED_KEYS_NAME_DUPLICATED)))
+
+    with context('including files from other files'):
+        with it('retrieves all existing keys'):
+            directory_yaml_loader = DirectoryYamlLoader(_absolute_path(A_PATH_INCLUDING_FILES))
+
+            templates = directory_yaml_loader.load_all()
+
+            expect(templates).to(equal(COMPLEX_YAML_CONTENT_WITH_INCLUDES))
 
 
 def _absolute_path(path):
-    return '{}/{}'.format(BASE_PATH, path)
+    return f'{BASE_PATH}/{path}'
