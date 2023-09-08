@@ -1,6 +1,6 @@
-import os
-import re
 import yaml
+import time
+import logging
 
 from infcommon.info_container.info_container import InfoContainer
 
@@ -13,38 +13,66 @@ class YamlReader:
 
     def __init__(self, path):
         self._path = path
+        self._MAX_SECS = 73
+        self._cache = None
+        self._cache_time = 0
+        self._cache_hits = 0
+        self._inverted = None
+        self._inverted_time = 0
+        self._inverted_hits = 0
 
     def get(self, key):
-        return self._load_file().get(key)
+        self._update_cache()
+        return self._cache.get(key)
 
     def get_info_container(self):
-        return InfoContainer(self._load_file(), return_none=True)
+        self._update_cache()
+        return InfoContainer(self._cache, return_none=True)
 
     def get_key_by(self, value):
-        for key, value_ in self._load_file().items():
-            if not isinstance(value_, bool) and value in value_:
-                return key
+        self._update_inverted()
+        return self._inverted.get(value)
 
     def get_all(self):
-        return self._load_file()
+        self._update_cache()
+        return self._cache
 
     def __getitem__(self, key):
-        return self._load_file()[key]
+        self._update_cache()
+        return self._cache[key]
+
+    def _update_cache(self):
+        now = time.monotonic()
+        if self._cache is None or self._cache_time + self._MAX_SECS < now:
+            logging.warning('%s %s %s %s %s %d, %s, %d' % ('RAMONA:', 'file:', self._path, 'invalid cache', 'hits:', self._cache_hits, 'delta:', now - self._cache_time))
+            self._cache_hits = 0
+            self._cache_time = now
+            self._cache = self._load_file()
+            return
+        self._cache_hits += 1
+
+    def _update_inverted(self):
+        self._update_cache()
+        now = time.monotonic()
+        if self._inverted is None or self._inverted_time + self._MAX_SECS < now:
+            logging.warning('%s %s %s %s %s %d, %s, %d' % ('RAMONA:', 'file:', self._path, 'invalid inverted cache', 'hits:', self._inverted_hits, 'delta:', now - self._inverted_time))
+            self._inverted_hits = 0
+            self._inverted_time = now
+            self._inverted = dict()
+            for key, value in self._cache.items():
+                if not isinstance(value, bool):
+                    # We should handle repeated values, well the original code returns the first match ...
+                    # Only store the first match
+                    if value in self._inverted:
+                        continue
+                    self._inverted[value] = key
+            return
+        self._inverted_hits += 1
 
     def _load_file(self):
-        try:
-            return self._custom_load_file()
-        except yaml.error.MarkedYAMLError as exc:
-            raise YamlReaderNotValidFileError(str(exc)) from exc
-
-    def _custom_load_file(self):
-        content = []
         with open(self._path) as f:
-            for line in f:
-                if match := re.match('^!include (.*$)', line):
-                    folder_path = os.path.dirname(self._path)
-                    with open(f'{folder_path}/{match[1]}', 'r') as include_f:
-                        content.extend(iter(include_f))
-                else:
-                    content.append(line)
-        return yaml.load(''.join(content), Loader=yaml.FullLoader)
+            try:
+                content = yaml.load(f, Loader=yaml.FullLoader)
+                return content
+            except yaml.error.MarkedYAMLError as exc:
+                raise YamlReaderNotValidFileError(str(exc))
