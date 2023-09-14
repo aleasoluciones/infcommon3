@@ -22,7 +22,7 @@ class DirectoryYamlLoader:
         return result
 
     def _sync_files(self):
-        filenames = list(glob.glob(f'{self._path}/*[.ya?ml]'))
+        filenames = list(glob.glob(f'{self._path}/*.y*ml'))
         return [f'{self._path}/{os.path.basename(filename)}' for filename in filenames]
 
     def _load_data_from_file(self, filename):
