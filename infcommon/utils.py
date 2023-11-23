@@ -9,9 +9,9 @@ SUCESSFUL_RECONNECTION_TIME = 30
 
 def do_stuff_with_exponential_backoff(exceptions, stuff_func, *args, **kwargs):
     try_num = 1
+    t1 = datetime.datetime.now()
     while True:
         try:
-            t1 = datetime.datetime.now()
             return stuff_func(*args, **kwargs)
         except exceptions as exc:
             _log_to_critical_or_error(try_num, exc)
@@ -21,7 +21,7 @@ def do_stuff_with_exponential_backoff(exceptions, stuff_func, *args, **kwargs):
 
 def _sleep_for_reconnect(try_num, exception):
     reconnect_sleep_time = min(MAX_RECONNECTION_TIME, (try_num**2)*MIN_SLEEP_TIME)
-    logging.info("Waiting for reconnect try {} sleeping {}s after {}".format(try_num, reconnect_sleep_time, repr(exception)))
+    logging.info(f"Waiting for reconnect try {try_num} sleeping {reconnect_sleep_time}s after {repr(exception)}")
     time.sleep(reconnect_sleep_time)
 
 

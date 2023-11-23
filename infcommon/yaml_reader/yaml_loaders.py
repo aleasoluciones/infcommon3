@@ -32,7 +32,7 @@ class DirectoryYamlLoader:
                 for line in f:
                     if match := re.match('^!include (.*$)', line):
                         folder_path = os.path.dirname(filename)
-                        with open(f'{folder_path}/{match[1]}', 'r') as include_f:
+                        with open(f'{folder_path}/{match[1]}') as include_f:
                             content.extend(iter(include_f))
                     else:
                         content.append(line)

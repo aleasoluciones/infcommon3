@@ -36,14 +36,14 @@ def find_and_call_functions_from():
             element = getattr(a_factory, element_name)
             if callable(element):
                 if isinstance(element, types.FunctionType) and not element_name.startswith('__'):
-                    LAST_CALL = "===> Exception in Factory file: {} Testing to call: {}".format(factory_file, element_name)
+                    LAST_CALL = f"===> Exception in Factory file: {factory_file} Testing to call: {element_name}"
                     # -----------------------------------------------
                     # Check if functions has none optional arguments
                     # -----------------------------------------------
                     number_of_arguments = element.__code__.co_argcount
                     all_arguments_and_local_variables_names = element.__code__.co_varnames
                     arguments_with_default_value = element.__defaults__ if element.__defaults__ else []
-                    if arguments_with_default_value is not None or len(arguments) > 0:
+                    if arguments_with_default_value is not None:
                         required_arguments =  all_arguments_and_local_variables_names[:number_of_arguments - len(arguments_with_default_value)]
                         if len(required_arguments) > 0:
                             aux = {}
@@ -63,15 +63,15 @@ def find_and_call_functions_from():
     elapsed_time = datetime.utcnow() - initial_time
     print('')
     print(GREEN_COLOR)
-    print("{} examples ran in {:.4f} seconds{}".format(TOTALS_TESTS_PASSED, elapsed_time.total_seconds(), WHITE_COLOR))
+    print(f"{TOTALS_TESTS_PASSED} examples ran in {elapsed_time.total_seconds():.4f} seconds{WHITE_COLOR}")
 
 
 def _import_module(module_name):
     try:
-        file_to_import = re.sub('\./.+?/', '', module_name).replace('/', '.').replace('.py', '')
+        file_to_import = re.sub(r'\./.+?/', '', module_name).replace('/', '.').replace('.py', '')
         return importlib.import_module(file_to_import)
     except Exception:
-        file_to_import = re.sub('\./', '', module_name).replace('/', '.').replace('.py', '')
+        file_to_import = re.sub(r'\./', '', module_name).replace('/', '.').replace('.py', '')
         return importlib.import_module(file_to_import)
     #https://stackoverflow.com/questions/4821104/python-dynamic-instantiation-from-string-name-of-a-class-in-dynamically-imported
 
@@ -83,7 +83,7 @@ def run():
     except Exception as exc:
         print('')
         print(RED_COLOR)
-        print("{} -> {}".format(LAST_CALL, exc))
+        print(f"{LAST_CALL} -> {exc}")
         print()
         traceback.print_exc()
         print(WHITE_COLOR)

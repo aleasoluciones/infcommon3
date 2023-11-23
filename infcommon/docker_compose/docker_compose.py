@@ -42,7 +42,7 @@ class DockerComposeService:
 
         try:
             if grep_pattern is None:
-                subprocess.call('tail -f {log_path}'.format(log_path=log_path), shell=True)
+                subprocess.call(f'tail -f {log_path}', shell=True)
             else:
                 subprocess.call('tail -f {log_path} | grep {grep_pattern}'.format(log_path=log_path,
                                                                                   grep_pattern=grep_pattern),

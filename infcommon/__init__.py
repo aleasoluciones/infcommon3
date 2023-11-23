@@ -10,7 +10,7 @@ class AttributesComparison:
         return not self.__eq__(other)
 
     def __repr__(self):
-        return "%s %s" % (self.__class_name_without_module(), self.__dict__)
+        return f"{self.__class_name_without_module()} {self.__dict__}"
 
     def __hash__(self):
         return hash(str(self))

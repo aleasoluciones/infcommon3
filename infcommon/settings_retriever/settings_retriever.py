@@ -1,4 +1,3 @@
-
 class SettingsRetrieverKeyNotFoundError(Exception):
     pass
 
