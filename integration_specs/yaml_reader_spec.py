@@ -1,3 +1,4 @@
+import time
 import os
 import yaml
 import tempfile
@@ -21,6 +22,8 @@ A_FALSE_BOOLEAN_PARAMETER_VALUE = False
 YAML_CONTENT = {KEY: VALUE,
                 A_TRUE_BOOLEAN_PARAMETER: A_TRUE_BOOLEAN_PARAMETER_VALUE,
                 A_FALSE_BOOLEAN_PARAMETER: A_FALSE_BOOLEAN_PARAMETER_VALUE,}
+
+EMPTY_CONTENT = {}
 
 
 with description('YamlReader') as self:
@@ -143,3 +146,28 @@ with description('YamlReader') as self:
                 result = self.yaml_reader.get_all()
 
                 expect(result).to(equal(YAML_CONTENT))
+
+    with context('loading yaml files with cache'):
+        with before.all:
+            self.yaml_file = self._generate_file_and_return_name()
+            self.yaml_reader = YamlReader(self.yaml_file, cache_time_in_sec=0.1)
+            self.yaml_reader.get_all()
+            with open(self.yaml_file, 'w') as f:
+                f.write(f'{EMPTY_CONTENT}')
+
+        with after.all:
+            os.unlink(self.yaml_file)
+
+        with context('when time is less than cache time'):
+            with it('returns cache based on time cached'):
+                result = self.yaml_reader.get_all()
+
+                expect(result).to(equal(YAML_CONTENT))
+
+        with context('when time is greater than cache time'):
+            with it('returns cache based on time cached'):
+                time.sleep(0.2)
+                result = self.yaml_reader.get_all()
+
+                expect(result).to(equal(EMPTY_CONTENT))
+

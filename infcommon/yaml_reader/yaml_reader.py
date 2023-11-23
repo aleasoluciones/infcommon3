@@ -7,15 +7,17 @@ import re
 from infcommon.info_container.info_container import InfoContainer
 
 
+
 class YamlReaderNotValidFileError(BaseException):
     pass
 
 
 class YamlReader:
+    NO_CACHE = 0
 
-    def __init__(self, path):
+    def __init__(self, path, cache_time_in_sec=NO_CACHE):
         self._path = path
-        self._MAX_SECS = 73
+        self._MAX_SECS = cache_time_in_sec
         self._cache = None
         self._cache_time = 0
         self._cache_hits = 0
@@ -46,6 +48,9 @@ class YamlReader:
         return self._cache[key]
 
     def _update_cache(self):
+        if self._MAX_SECS == self.NO_CACHE:
+            self._cache = self._load_file()
+            return
         now = time.monotonic()
         if self._cache is None or self._cache_time + self._MAX_SECS < now:
             logging.warning('%s %s %s %s %s %d, %s, %d' % ('UPDATE CACHE:', 'file:', self._path, 'invalid cache', 'hits:', self._cache_hits, 'delta:', now - self._cache_time))
