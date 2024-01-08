@@ -40,3 +40,7 @@ python -m pip install -r requirements.txt
 
 * You can set the SENTRY\_DNS environment variable to use Sentry as logger handler.
 * To disable the logs, set the environment variable TEST\_MODE (e.g. when executing the tests we don't want logs to be printed or breaking the execution).
+
+### USR signals
+* You can activate/deactivate DEBUG logs with USR1/USR2 signals
+* You can activate/deactivate SENTRY TRACE SAMPLING with SIGRTMIN/SIGRTMAX signals. Sentry trace sampling is disable by default
