@@ -71,20 +71,27 @@ def configure_sentry_if_exists_env_variable(traces=True):
         pass
 
     if not traces:
-        logging.info("SENTRY traces are not enabled")
         sentry_sdk.init(sentry_dsn,
                         traces_sample_rate=0.0,
                         integrations=integrations)
         return
 
-    logging.info("SENTRY traces are enabled")
     sentry_sdk.init(sentry_dsn,
                     traces_sample_rate=1.0,
                     integrations=integrations)
 
 
-configure_sentry_if_exists_env_variable(traces=False)
+def disable_sentry_traces():
+    logging.info("Disabling SENTRY traces")
+    configure_sentry_if_exists_env_variable(traces=False)
 
+
+def enable_sentry_traces():
+    logging.info("Enabling SENTRY traces")
+    configure_sentry_if_exists_env_variable(traces=True)
+
+
+configure_sentry_if_exists_env_variable(traces=False)
 
 def info(message, *args, **kwargs):
     _log('info', message, args, kwargs)
@@ -110,5 +117,5 @@ def _log(level, message, args, kwargs):
    if TEST_MODE_NOT_ENABLED:
         getattr(infrastructure_logger, level)(message, *args, **kwargs)
 
-signal.signal(signal.SIGRTMIN, lambda signal, frame: configure_sentry_if_exists_env_variable(traces=False))
-signal.signal(signal.SIGRTMAX, lambda signal, frame: configure_sentry_if_exists_env_variable(traces=True))
+signal.signal(signal.SIGRTMIN, lambda signal, frame: disable_sentry_traces())
+signal.signal(signal.SIGRTMAX, lambda signal, frame: enable_sentry_traces())
