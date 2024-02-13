@@ -13,7 +13,7 @@ class SettingsRetriever:
         if key in self._envs:
             return self._envs.get(key)
         file_value = self._settings_file.get(key)
-        if file_value:
+        if file_value is not None:
             return file_value
         if fail_on_key_not_found:
             raise SettingsRetrieverKeyNotFoundError()

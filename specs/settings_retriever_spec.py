@@ -1,6 +1,6 @@
 from mamba import describe, context, it, before
 from expects import expect, equal, raise_error
-from doublex import Stub, when
+from doublex import Spy, when
 
 from infcommon.yaml_reader.yaml_reader import YamlReader
 from infcommon.settings_retriever.settings_retriever import SettingsRetriever, SettingsRetrieverKeyNotFoundError
@@ -25,7 +25,7 @@ ANYTHING_ELSE = 'f5kN'
 
 with describe('Settings') as self:
     with before.each:
-        self.settings_file = Stub(YamlReader)
+        self.settings_file = Spy(YamlReader)
 
     with context('FEATURE: get string value'):
         with context('when enviroment variable is present'):
@@ -72,7 +72,7 @@ with describe('Settings') as self:
                         settings = SettingsRetriever(envs, self.settings_file)
 
                         def _exception():
-                            value = settings.get_value(key=A_KEY, default_value=None, fail_on_key_not_found=True)
+                            settings.get_value(key=A_KEY, default_value=None, fail_on_key_not_found=True)
 
                         expect(_exception).to(raise_error(SettingsRetrieverKeyNotFoundError))
 
@@ -182,3 +182,23 @@ with describe('Settings') as self:
                         value = settings.get_bool(key=A_KEY)
 
                         expect(value).to(equal(False))
+
+        with context('when have a TRUE default value'):
+            with context('and key exists in file and has a False value'):
+                with it('returns its value'):
+                    envs = {}
+                    when(self.settings_file).get(A_KEY).returns(False)
+                    settings = SettingsRetriever(envs, self.settings_file)
+
+                    value = settings.get_bool(key=A_KEY, default_value=True)
+
+                    expect(value).to(equal(False))
+
+            with context('and key does NOT exists in file'):
+                with it('returns default value'):
+                    envs = {}
+                    settings = SettingsRetriever(envs, self.settings_file)
+
+                    value = settings.get_bool(key=A_KEY, default_value=True)
+
+                    expect(value).to(equal(True))
