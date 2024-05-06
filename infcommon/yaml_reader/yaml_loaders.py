@@ -4,6 +4,7 @@ import glob
 import yaml
 
 from infcommon.yaml_reader.exceptions import DuplicatedKeyError
+from infcommon import logger
 
 
 class DirectoryYamlLoader:
@@ -37,7 +38,8 @@ class DirectoryYamlLoader:
                     else:
                         content.append(line)
             return yaml.load(''.join(content), Loader=yaml.FullLoader)
-        except yaml.YAMLError:
+        except yaml.YAMLError as exc:
+            logger.error(f"Error loading file: {filename} {exc}")
             return {}
 
     def _keys_are_already_used(self, all_dict, current_dict):
