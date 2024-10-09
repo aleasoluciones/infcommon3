@@ -48,7 +48,6 @@ def set_level(level):
 def configure_sentry_if_exists_env_variable(traces=True):
     sentry_dsn = os.environ.get('SENTRY_DSN')
     if not sentry_dsn:
-        logging.info("SENTRY_DSN is not set")
         return
 
     integrations = []
