@@ -9,7 +9,12 @@ class TraceIdFilter(logging.Filter):
     def filter(self, record):
         record.trace_id = trace_id_var.get()
         return True
-
+    
+class TraceIdFormatter(logging.Formatter):
+    def format(self, record):
+        trace_id = getattr(record, "trace_id", None)
+        record.trace_id_str = f"[trace_id={trace_id}]" if trace_id else ""
+        return super().format(record)
 
 BASE_CONF = {
     'version': 1,
@@ -17,8 +22,8 @@ BASE_CONF = {
 
     'formatters': {
         'console': {
-            'format': '[%(asctime)s][%(levelname)s][trace_id=%(trace_id)s] '
-                      '%(name)s %(filename)s:%(funcName)s:%(lineno)d | %(message)s',
+            '()': TraceIdFormatter,
+            'format': '[%(asctime)s][%(levelname)s]%(trace_id_str)s %(name)s %(filename)s:%(funcName)s:%(lineno)d | %(message)s',
             'datefmt': '%H:%M:%S',
         },
     },
