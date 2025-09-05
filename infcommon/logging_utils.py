@@ -13,7 +13,7 @@ class TraceIdFilter(logging.Filter):
 class TraceIdFormatter(logging.Formatter):
     def format(self, record):
         trace_id = getattr(record, "trace_id", None)
-        record.trace_id_str = f"[trace_id={trace_id}]" if trace_id else ""
+        record.trace_id_str = f"[{trace_id}]" if trace_id else ""
         return super().format(record)
 
 BASE_CONF = {
