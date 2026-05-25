@@ -5,6 +5,7 @@ import contextvars
 
 trace_id_var = contextvars.ContextVar("trace_id", default=None)
 remote_addr_var = contextvars.ContextVar("remote_addr", default=None)
+user_agent_var = contextvars.ContextVar("user_agent", default=None)
 
 class TraceIdFilter(logging.Filter):
     def filter(self, record):
