@@ -7,9 +7,9 @@ setup(name='infcommon',
       platforms='Linux',
       packages=find_packages(exclude=['specs',
                                       'integration_specs']),
-      install_requires=['sentry-sdk==2.60.0',
+      install_requires=['sentry-sdk==2.75.0',
                         'aiocontextvars==0.2.2',
                         'PyYAML==6.0.3',
-                        'jsonpickle==4.1.1'
+                        'jsonpickle==4.1.4'
                         ]
       )
